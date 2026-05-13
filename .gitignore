@@ -1,0 +1,6 @@
+.env
+ashfall.db
+data/
+__pycache__/
+.venv/
+*.pyc

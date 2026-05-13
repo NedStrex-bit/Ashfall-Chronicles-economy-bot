@@ -1,0 +1,11 @@
+services:
+  ashfall-bot:
+    build: .
+    container_name: ashfall-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      ASHFALL_DB_PATH: /app/data/ashfall.db
+    volumes:
+      - ./data:/app/data
