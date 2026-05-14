@@ -135,26 +135,26 @@ class AdminCommands(commands.Cog):
         embed.add_field(name="Branch Balance", value=str(branch_marks), inline=True)
         embed.add_field(name="Branch Rank", value=branch_rank, inline=True)
         embed.add_field(
-            name="Выданы роли",
-            value=", ".join(role_changes["added"]) or "Нет",
+            name="Roles Added",
+            value=", ".join(role_changes["added"]) or "None",
             inline=False,
         )
         embed.add_field(
-            name="Сняты роли",
-            value=", ".join(role_changes["removed"]) or "Нет",
+            name="Roles Removed",
+            value=", ".join(role_changes["removed"]) or "None",
             inline=False,
         )
 
         if role_changes["missing_roles"]:
             embed.add_field(
-                name="Не найдены роли",
+                name="Missing Roles",
                 value=", ".join(role_changes["missing_roles"]),
                 inline=False,
             )
 
         if role_changes["role_errors"]:
             embed.add_field(
-                name="Ошибки ролей",
+                name="Role Errors",
                 value="\n".join(role_changes["role_errors"]),
                 inline=False,
             )
@@ -204,28 +204,28 @@ class AdminCommands(commands.Cog):
             title="Ashfall Roles Synced",
             color=discord.Color.green(),
         )
-        embed.add_field(name="Участник", value=user.mention, inline=False)
+        embed.add_field(name="Member", value=user.mention, inline=False)
         embed.add_field(
-            name="Выданы роли",
-            value=", ".join(role_changes["added"]) or "ничего не выдано",
+            name="Roles Added",
+            value=", ".join(role_changes["added"]) or "No roles added",
             inline=False,
         )
         embed.add_field(
-            name="Сняты роли",
-            value=", ".join(role_changes["removed"]) or "ничего не снято",
+            name="Roles Removed",
+            value=", ".join(role_changes["removed"]) or "No roles removed",
             inline=False,
         )
 
         if role_changes["missing_roles"]:
             embed.add_field(
-                name="Не найдены роли",
+                name="Missing Roles",
                 value=", ".join(role_changes["missing_roles"]),
                 inline=False,
             )
 
         if role_changes["role_errors"]:
             embed.add_field(
-                name="Ошибки ролей",
+                name="Role Errors",
                 value="\n".join(role_changes["role_errors"]),
                 inline=False,
             )
@@ -274,41 +274,41 @@ class AdminCommands(commands.Cog):
             title="Ash Marks Adjusted",
             color=discord.Color.blue(),
         )
-        embed.add_field(name="Участник", value=user.mention, inline=True)
-        embed.add_field(name="Ветка", value=BRANCHES[branch_key], inline=True)
-        embed.add_field(name="Изменение", value=str(actual_change), inline=True)
-        embed.add_field(name="Причина", value=reason or "Не указана", inline=False)
+        embed.add_field(name="Member", value=user.mention, inline=True)
+        embed.add_field(name="Branch", value=BRANCHES[branch_key], inline=True)
+        embed.add_field(name="Change", value=str(actual_change), inline=True)
+        embed.add_field(name="Reason", value=reason or "Not provided", inline=False)
         embed.add_field(
-            name="Новый общий баланс",
+            name="New Total Balance",
             value=str(new_total_marks),
             inline=True,
         )
         embed.add_field(
-            name="Новый баланс ветки",
+            name="New Branch Balance",
             value=str(new_branch_marks),
             inline=True,
         )
         embed.add_field(
-            name="Выданы роли",
-            value=", ".join(role_changes["added"]) or "ничего не выдано",
+            name="Roles Added",
+            value=", ".join(role_changes["added"]) or "No roles added",
             inline=False,
         )
         embed.add_field(
-            name="Сняты роли",
-            value=", ".join(role_changes["removed"]) or "ничего не снято",
+            name="Roles Removed",
+            value=", ".join(role_changes["removed"]) or "No roles removed",
             inline=False,
         )
 
         if role_changes["missing_roles"]:
             embed.add_field(
-                name="Не найдены роли",
+                name="Missing Roles",
                 value=", ".join(role_changes["missing_roles"]),
                 inline=False,
             )
 
         if role_changes["role_errors"]:
             embed.add_field(
-                name="Ошибки ролей",
+                name="Role Errors",
                 value="\n".join(role_changes["role_errors"]),
                 inline=False,
             )
@@ -351,7 +351,7 @@ class AdminCommands(commands.Cog):
 
         if amount <= 0:
             await interaction.response.send_message(
-                "amount должен быть положительным числом.",
+                "amount must be a positive number.",
                 ephemeral=True,
             )
             return
@@ -378,41 +378,41 @@ class AdminCommands(commands.Cog):
             title="Ash Marks Removed",
             color=discord.Color.red(),
         )
-        embed.add_field(name="Участник", value=user.mention, inline=True)
-        embed.add_field(name="Ветка", value=BRANCHES[branch_key], inline=True)
-        embed.add_field(name="Снято", value=str(actual_removed), inline=True)
-        embed.add_field(name="Причина", value=reason or "Не указана", inline=False)
+        embed.add_field(name="Member", value=user.mention, inline=True)
+        embed.add_field(name="Branch", value=BRANCHES[branch_key], inline=True)
+        embed.add_field(name="Removed", value=str(actual_removed), inline=True)
+        embed.add_field(name="Reason", value=reason or "Not provided", inline=False)
         embed.add_field(
-            name="Новый общий баланс",
+            name="New Total Balance",
             value=str(new_total_marks),
             inline=True,
         )
         embed.add_field(
-            name="Новый баланс ветки",
+            name="New Branch Balance",
             value=str(new_branch_marks),
             inline=True,
         )
         embed.add_field(
-            name="Выданы роли",
-            value=", ".join(role_changes["added"]) or "ничего не выдано",
+            name="Roles Added",
+            value=", ".join(role_changes["added"]) or "No roles added",
             inline=False,
         )
         embed.add_field(
-            name="Сняты роли",
-            value=", ".join(role_changes["removed"]) or "ничего не снято",
+            name="Roles Removed",
+            value=", ".join(role_changes["removed"]) or "No roles removed",
             inline=False,
         )
 
         if role_changes["missing_roles"]:
             embed.add_field(
-                name="Не найдены роли",
+                name="Missing Roles",
                 value=", ".join(role_changes["missing_roles"]),
                 inline=False,
             )
 
         if role_changes["role_errors"]:
             embed.add_field(
-                name="Ошибки ролей",
+                name="Role Errors",
                 value="\n".join(role_changes["role_errors"]),
                 inline=False,
             )

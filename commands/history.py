@@ -21,12 +21,12 @@ class HistoryCommands(commands.Cog):
         transactions = get_user_history(member.id, limit)
 
         embed = discord.Embed(
-            title=f"История Ash Marks — {member.display_name}",
+            title=f"Ash Marks History — {member.display_name}",
             color=discord.Color.dark_teal(),
         )
 
         if not transactions:
-            embed.description = "История начислений пока пустая."
+            embed.description = "No Ash Marks history yet."
             await interaction.response.send_message(embed=embed)
             return
 

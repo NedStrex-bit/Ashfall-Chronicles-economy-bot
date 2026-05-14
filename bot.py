@@ -56,19 +56,19 @@ async def on_app_command_error(
     original_error = getattr(error, "original", error)
 
     if isinstance(original_error, app_commands.MissingPermissions):
-        message = "У тебя нет прав для этой команды."
+        message = "You do not have permission to use this command."
     elif isinstance(original_error, app_commands.CheckFailure):
-        message = "Эта команда недоступна для твоей роли или контекста."
+        message = "This command is not available for your role or context."
     elif isinstance(original_error, ValueError):
-        message = f"Некорректные данные: {original_error}"
+        message = f"Invalid input: {original_error}"
     elif isinstance(original_error, sqlite3.Error):
-        message = "Ошибка базы данных. Попробуй позже или сообщи администрации."
+        message = "Database error. Try again later or contact the staff."
     elif isinstance(original_error, discord.Forbidden):
-        message = "Discord не разрешил выполнить действие. Проверь права и позицию роли бота."
+        message = "Discord denied this action. Check the bot permissions and role position."
     elif isinstance(original_error, discord.HTTPException):
-        message = "Discord API вернул ошибку. Попробуй ещё раз позже."
+        message = "Discord API returned an error. Try again later."
     else:
-        message = "Произошла непредвиденная ошибка. Сообщи администрации."
+        message = "An unexpected error occurred. Contact the staff."
         print(f"Unhandled app command error: {original_error!r}")
 
     try:

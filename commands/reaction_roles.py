@@ -82,23 +82,23 @@ class ReactionRoles(commands.Cog):
         except discord.Forbidden:
             logger.warning("Cannot create path message or add reactions: forbidden.")
             await interaction.followup.send(
-                "Discord не разрешил создать сообщение или добавить реакции. Проверь права бота в выбранном канале.",
+                "Discord denied creating the message or adding reactions. Check the bot permissions in the selected channel.",
                 ephemeral=True,
             )
             return
         except discord.HTTPException:
             logger.warning("Cannot create path message or add reactions: HTTP error.")
             await interaction.followup.send(
-                "Discord API вернул ошибку при создании сообщения reaction roles. Попробуй ещё раз позже.",
+                "Discord API returned an error while creating the reaction roles message. Try again later.",
                 ephemeral=True,
             )
             return
 
         await interaction.followup.send(
             (
-                "Сообщение для reaction roles создано.\n"
+                "Reaction roles message created.\n"
                 f"Message ID: `{message.id}`\n"
-                "Добавь этот ID в `.env` как `PATH_MESSAGE_ID` и перезапусти бота."
+                "Add this ID to `.env` as `PATH_MESSAGE_ID` and restart the bot."
             ),
             ephemeral=True,
         )
