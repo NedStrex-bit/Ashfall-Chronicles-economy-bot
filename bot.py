@@ -31,6 +31,7 @@ class AshfallBot(commands.Bot):
         await self.load_extension("commands.profile")
         await self.load_extension("commands.reaction_roles")
         await self.load_extension("commands.submit")
+        await self.load_extension("commands.welcome")
 
     async def on_ready(self) -> None:
         print(f"Ashfall bot is running as {self.user}.")

@@ -25,6 +25,7 @@ GUILD_ID=your_discord_server_id_here
 REWARDS_LOG_CHANNEL_ID=optional_rewards_log_channel_id_here
 REVIEW_QUEUE_CHANNEL_ID=optional_review_queue_channel_id_here
 PATH_MESSAGE_ID=optional_choose_your_path_message_id_here
+WELCOME_CHANNEL_ID=optional_welcome_channel_id_here
 ```
 
 `DISCORD_TOKEN` нельзя коммитить и нельзя хардкодить в коде.
@@ -36,6 +37,9 @@ PATH_MESSAGE_ID=optional_choose_your_path_message_id_here
 `PATH_MESSAGE_ID` понадобится для будущей функции reaction roles в канале
 `#choose-your-path`. Это ID сообщения, под которым участники будут ставить
 реакции для выбора пути. Пока сама выдача ролей по реакциям не реализована.
+
+`WELCOME_CHANNEL_ID` нужен для приветствия новых участников. Это ID канала, куда
+бот будет отправлять welcome-сообщение при входе человека на сервер.
 
 ## Установка зависимостей
 
@@ -183,6 +187,22 @@ ashfall.db
 ```
 
 Команда не меняет баланс.
+
+### `/test_welcome`
+
+Назначение: отправить тестовое welcome-сообщение без приглашения нового участника.
+
+Кто может использовать: участники с правом `Manage Server`.
+
+Пример:
+
+```text
+/test_welcome
+/test_welcome user:@Member
+```
+
+Если `WELCOME_CHANNEL_ID` настроен и канал найден, сообщение будет отправлено
+туда. Иначе бот отправит тестовое сообщение в текущий канал.
 
 ### `/profile`
 
@@ -395,6 +415,77 @@ REVIEW_QUEUE_CHANNEL_ID=123456789012345678
 - доступ к каналам, где используются команды;
 - доступ к reward-log и review-queue каналам, если они используются.
 
+Для приветствия новых участников через `on_member_join` нужен `Server Members
+Intent`. Его нужно включить в двух местах:
+
+- в Discord Developer Portal на странице бота;
+- в коде через `intents.members = True`.
+
+Боту также нужны права в welcome-канале:
+
+- `View Channel`;
+- `Send Messages`.
+
+## WELCOME_CHANNEL_ID для приветствий
+
+`WELCOME_CHANNEL_ID` — это ID канала, куда бот будет отправлять приветствия
+новых участников. Обычно это канал вроде `#general` или `#welcome`.
+
+Как скопировать Channel ID:
+
+1. Откройте Discord.
+2. Перейдите в `User Settings`.
+3. Откройте `Advanced`.
+4. Включите `Developer Mode`.
+5. Нажмите правой кнопкой по нужному каналу.
+6. Выберите `Copy Channel ID`.
+7. Вставьте значение в `.env`:
+
+```env
+WELCOME_CHANNEL_ID=123456789012345678
+```
+
+Не хардкодьте ID канала в коде.
+
+## Welcome messages
+
+Бот автоматически приветствует новых участников в канале из
+`WELCOME_CHANNEL_ID`. Для каждого нового участника выбирается случайное
+сообщение из пула welcome-сообщений в `services/welcome_service.py`.
+
+Для работы welcome-сообщений нужен `Server Members Intent`. Он должен быть
+включён:
+
+- в Discord Developer Portal;
+- в коде через `intents.members = True`.
+
+Боту нужны права в welcome-канале:
+
+- `View Channel`;
+- `Send Messages`.
+
+Если `WELCOME_CHANNEL_ID=0` или канал не найден, бот не отправляет приветствие и
+пишет warning в лог.
+
+### Troubleshooting welcome messages
+
+Welcome message does not appear:
+
+- check `WELCOME_CHANNEL_ID`;
+- check that the bot can view and send messages in the channel;
+- check that `Server Members Intent` is enabled in Discord Developer Portal;
+- check that `intents.members = True` in `bot.py`;
+- restart the bot after editing `.env`.
+
+Bot sends welcome messages to the wrong channel:
+
+- check the copied Channel ID;
+- make sure it is the channel ID, not message ID.
+
+Bot does not mention the user:
+
+- check that `build_welcome_message` uses `member.mention`.
+
 Для будущей функции reaction roles в `#choose-your-path` боту также понадобятся:
 
 - `Manage Roles`;
@@ -547,11 +638,13 @@ GUILD_ID=your_discord_server_id_here
 REWARDS_LOG_CHANNEL_ID=0
 REVIEW_QUEUE_CHANNEL_ID=0
 PATH_MESSAGE_ID=0
+WELCOME_CHANNEL_ID=0
 ```
 
 Для production укажите реальные channel ID для `REWARDS_LOG_CHANNEL_ID` и
 `REVIEW_QUEUE_CHANNEL_ID`, если используете эти функции. Для reaction roles
 укажите реальный `PATH_MESSAGE_ID`, когда эта функция будет реализована.
+Для welcome-сообщения укажите реальный `WELCOME_CHANNEL_ID`.
 
 ### Запуск на VPS
 
@@ -581,6 +674,7 @@ GUILD_ID=your_discord_server_id_here
 REWARDS_LOG_CHANNEL_ID=0
 REVIEW_QUEUE_CHANNEL_ID=0
 PATH_MESSAGE_ID=0
+WELCOME_CHANNEL_ID=0
 ```
 
 Соберите и запустите контейнер:
